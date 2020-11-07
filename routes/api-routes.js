@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { mongo } = require("mongoose");
 const Workout = require("../models/workout.js");
 
 router.post("/api/workouts", ({ body }, res) => {
@@ -11,13 +12,13 @@ router.post("/api/workouts", ({ body }, res) => {
     });
 });
 
-router.put("/api/workouts/:id", ({ params }, res) => {
+router.put("/api/workouts/:id", ({ params, body }, res) => {
 
-    Workout.update( 
-
-    )
-
-
+    Workout.findByIdAndUpdate( params.id, {$push: {exercises: body}})
+       .then(function(data) {
+           res.send(data)
+       })
+        
 });
 
 
